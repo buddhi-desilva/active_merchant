@@ -6,3 +6,7 @@ pkg
 Gemfile.lock
 Gemfile*.lock
 .rbx/
+
+lib/active_merchant/billing/credit_card_methods.rb
+
+lib/active_merchant/billing/gateways/usa_epay_transaction.rb
