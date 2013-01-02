@@ -43,39 +43,39 @@ Alternatively, add the following to your Gemfile
 This simple example demonstrates how a purchase can be made using a person's
 credit card details.
 
-	require 'rubygems'
-	require 'active_merchant'
+    require 'rubygems'
+    require 'active_merchant'
 
-	# Use the TrustCommerce test servers
-	ActiveMerchant::Billing::Base.mode = :test
+    # Use the TrustCommerce test servers
+    ActiveMerchant::Billing::Base.mode = :test
 
-	gateway = ActiveMerchant::Billing::TrustCommerceGateway.new(
-	            :login => 'TestMerchant',
-	            :password => 'password')
+    gateway = ActiveMerchant::Billing::TrustCommerceGateway.new(
+                :login => 'TestMerchant',
+                :password => 'password')
 
-	# ActiveMerchant accepts all amounts as Integer values in cents
-	amount = 1000  # $10.00
+    # ActiveMerchant accepts all amounts as Integer values in cents
+    amount = 1000  # $10.00
 
-	# The card verification value is also known as CVV2, CVC2, or CID
-	credit_card = ActiveMerchant::Billing::CreditCard.new(
-	                :first_name         => 'Bob',
-	                :last_name          => 'Bobsen',
-	                :number             => '4242424242424242',
-	                :month              => '8',
-	                :year               => '2012',
-	                :verification_value => '123')
+    # The card verification value is also known as CVV2, CVC2, or CID
+    credit_card = ActiveMerchant::Billing::CreditCard.new(
+                    :first_name         => 'Bob',
+                    :last_name          => 'Bobsen',
+                    :number             => '4242424242424242',
+                    :month              => '8',
+                    :year               => Time.now.year+1,
+                    :verification_value => '000')
 
-	# Validating the card automatically detects the card type
-	if credit_card.valid?
-	  # Capture $10 from the credit card
-	  response = gateway.purchase(amount, credit_card)
+    # Validating the card automatically detects the card type
+    if credit_card.valid?
+      # Capture $10 from the credit card
+      response = gateway.purchase(amount, credit_card)
 
-	  if response.success?
-	    puts "Successfully charged $#{sprintf("%.2f", amount / 100)} to the credit card #{credit_card.display_number}"
-	  else
-	    raise StandardError, response.message
-	  end
-	end
+      if response.success?
+        puts "Successfully charged $#{sprintf("%.2f", amount / 100)} to the credit card #{credit_card.display_number}"
+      else
+        raise StandardError, response.message
+      end
+    end
 
 For more in-depth documentation and tutorials, see {file:GettingStarted.md} and the
 [API documentation](http://rubydoc.info/github/Shopify/active_merchant/master/file/README.md).
@@ -100,9 +100,11 @@ The [ActiveMerchant Wiki](http://github.com/Shopify/active_merchant/wikis) conta
 * [Elavon MyVirtualMerchant](http://www.elavon.com) - US, CA
 * [ePay](http://www.epay.dk/) - DK, SE, NO
 * [eWAY](http://www.eway.com.au/) - AU
+* [eWay Rapid 3.0](http://www.eway.com.au/) - AU
 * [E-xact](http://www.e-xact.com) - CA, US
 * [Fat Zebra](https://www.fatzebra.com.au) - AU
 * [Federated Canada](http://www.federatedcanada.com/) - CA
+* [FirstData Global Gateway e4](http://www.firstdata.com) - CA, US
 * [FirstPay](http://www.first-pay.com) - US
 * [Garanti Sanal POS](https://ccpos.garanti.com.tr/ccRaporlar/garanti/ccReports) - US, TR
 * [HDFC](http://www.hdfcbank.com/sme/sme-details/merchant-services/guzh6m0i) - IN
@@ -158,6 +160,7 @@ The [ActiveMerchant Wiki](http://github.com/Shopify/active_merchant/wikis) conta
 * [SecurePay](http://www.securepay.com/) - US
 * [SecurePayTech](http://www.securepaytech.com/) - NZ
 * [SkipJack](http://www.skipjack.com/) - US, CA
+* [Spreedly Core](https://spreedlycore.com/) - AD, AE, AT, AU, BD, BE, BG, BN, CA, CH, CY, CZ, DE, DK, EE, EG, ES, FI, FR, GB, GI, GR, HK, HU, ID, IE, IL, IM, IN, IS, IT, JO, KW, LB, LI, LK, LT, LU, LV, MC, MT, MU, MV, MX, MY, NL, NO, NZ, OM, PH, PL, PT, QA, RO, SA, SE, SG, SI, SK, SM, TR, TT, UM, US, VA, VN, ZA
 * [Stripe](https://stripe.com/) - US
 * [TransFirst](http://www.transfirst.com/) - US
 * [TrustCommerce](http://www.trustcommerce.com/) - US
@@ -210,3 +213,5 @@ Please don't touch the CHANGELOG in your pull requests, we'll add the appropriat
 at release time.
 
 [![Build Status](https://secure.travis-ci.org/Shopify/active_merchant.png)](http://travis-ci.org/Shopify/active_merchant)
+
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/Shopify/active_merchant)
