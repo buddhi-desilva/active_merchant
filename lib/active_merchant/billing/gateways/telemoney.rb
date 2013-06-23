@@ -156,7 +156,7 @@ module ActiveMerchant #:nodoc:
           authorization_hash_string = authorization_hash.map{|key, value| "#{key}=#{value}"}.join('---')
 
 
-          Response.new(response["TM_Status"] == 'YES', message_from(response), response,
+          Response.new(success?(response), message_from(response), response,
             :test => test?,
             # This is a hack to avoid extra code/calculations or possible db changes to the
             # user/coder. Telemoney requires an additional paytype parameter provided and it
@@ -170,6 +170,10 @@ module ActiveMerchant #:nodoc:
           )
 
 
+        end
+
+        def success?(response)
+          response["TM_Status"] == 'YES'
         end
 
         def message_from(response)
